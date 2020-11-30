@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 3b1b05c6f40b04842a4811343b04e1cd
+  - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 41c8c8397ee4283449d82e6f5923e052
   - enabled: 1
@@ -17,4 +20,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stages/Stage_SkiTown.unity
     guid: 6e4b93f8c047d494a92680f0d307f91b
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage_ForestOfFaces.unity
+    guid: 4dfd20c9240ee4441b44572755ac082b
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage_IceCreamBeach.unity
+    guid: 6e328ea7f1a174a4587d11f3331c65bb
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage_MesaVerde.unity
+    guid: cc06cc5295e62144e9a598222dc0f820
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage_SpooderTown.unity
+    guid: a4da0f98c4c2b5a4aa8ffe0c7b1fd22d
+  - enabled: 1
+    path: Assets/Scenes/Stages/Stage_SushiCity.unity
+    guid: 2e2b67868a7a7cf4e8d2ae0210f3adf6
   m_configObjects: {}

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - Effect_DeathCloud
+  - Effect_CloudBurst
+  - ScoreText
   layers:
   - Default
   - TransparentFX
@@ -41,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Layer01
+    uniqueID: 3034289595
     locked: 0
