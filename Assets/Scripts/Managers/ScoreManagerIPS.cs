@@ -12,12 +12,19 @@ namespace IPS.Inputs
     {
         public static ScoreManagerIPS Instance;
 
-        public Dictionary<GameObject,int> currentPlayers = new Dictionary<GameObject, int>();
+        public Dictionary<GameObject, int> currentPlayers = new Dictionary<GameObject, int>();
         //List<int> scores = new List<int>();
         public List<UI_PlayerScoreDisplay> scoreDisplays = new List<UI_PlayerScoreDisplay>();
         public GameObject playerScoreDisplayPrefab;
 
+        [SerializeField] GameObject blurPostProc;
+
+        [SerializeField] List<Transform> playerScoreDisplaySpawns = new List<Transform>();
+
         public GameObject roundEndDisplay;
+        
+        public int pointsForPlayerShot = 5;
+        public int pointsLossForNPCShot = 2;
 
         private NetworkManagerIPS room;
         private NetworkManagerIPS Room
@@ -38,21 +45,26 @@ namespace IPS.Inputs
             Instance = this;
         }
 
-        public List<GameObject> GetWinners(){
+        public List<GameObject> GetWinners()
+        {
             List<GameObject> winners = new List<GameObject>();
             int currentHighest = currentPlayers.Values.ElementAt(0);
 
 
 
             //Get Highest score
-            foreach(int playerScore in currentPlayers.Values){
-                if(playerScore > currentHighest){
+            foreach (int playerScore in currentPlayers.Values)
+            {
+                if (playerScore > currentHighest)
+                {
                     currentHighest = playerScore;
                 }
             }
 
-            for(int i = 0; i < currentPlayers.Count; i++){
-                if(currentPlayers.Values.ElementAt(i) == currentHighest){
+            for (int i = 0; i < currentPlayers.Count; i++)
+            {
+                if (currentPlayers.Values.ElementAt(i) == currentHighest)
+                {
                     winners.Add(currentPlayers.Keys.ElementAt(i));
                 }
             }
@@ -78,7 +90,7 @@ namespace IPS.Inputs
         public void AddPlayer(Player_ScoreKeeper player)
         { //called by Player_ScoreKeeper on creation
             player.EventScoreChanged += HandleScoreChange;
-            currentPlayers.Add(player.gameObject,0);
+            currentPlayers.Add(player.gameObject, 0);
             Debug.Log("Player added to score manager" + currentPlayers);
 
         }
@@ -133,9 +145,14 @@ namespace IPS.Inputs
         { //called by the round manager
             roundEndDisplay.SetActive(true);
 
+            int maxScore = 0;
+            int spawnIndex = 0;
+
             //for each player, spawn a player score display and set the needed values based on that player
             foreach (GameObject player in currentPlayers.Keys)
             {
+                            Debug.Log("End ROund Loop run.........");
+
                 NetworkConnection conn = player.GetComponent<Player_ScoreKeeper>().connectionToClient;
                 Debug.Log(conn.identity);
 
@@ -144,17 +161,47 @@ namespace IPS.Inputs
 
                 NetworkServer.Spawn(scoreDisplayInstance, conn);
                 scoreDisplayInstance.GetComponent<UI_PlayerScoreDisplay>().RpcSetScoreDisplay(currentPlayers[player]);
+                scoreDisplays.Add(scoreDisplayInstance.GetComponent<UI_PlayerScoreDisplay>());
+
+                //set bar to proper position
+                scoreDisplayInstance.transform.position = playerScoreDisplaySpawns[spawnIndex].position;
+                spawnIndex++;
 
 
-
+                //check if this player has the current highest score
+                if (currentPlayers[player] >= maxScore)
+                {
+                    Debug.Log("Updated max score from" + maxScore +" to " + currentPlayers[player]);
+                    maxScore = currentPlayers[player];
+                }
 
             }
+
+            //set percentage for each score display
+             foreach (UI_PlayerScoreDisplay scoreDisplay in scoreDisplays)
+            {
+                Debug.Log("Got here- percentage filled");
+                if(scoreDisplay.myScore != 0){
+                    float percentageFill = maxScore/scoreDisplay.myScore;
+                    scoreDisplay.RpcSetFillPercentage(percentageFill);
+                }else{
+                    scoreDisplay.RpcSetFillPercentage(0);
+                }
+
+            }
+
             RpcShowScores();
         }
         [ClientRpc]
         void RpcShowScores()
         {
+            blurPostProc.SetActive(true);
             roundEndDisplay.SetActive(true);
+              foreach (UI_PlayerScoreDisplay scoreDisplay in scoreDisplays)
+            {
+                scoreDisplay.RpcStartRising();
+
+            }
 
         }
 

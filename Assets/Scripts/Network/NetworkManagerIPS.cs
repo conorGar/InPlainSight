@@ -79,6 +79,9 @@ namespace IPS.Inputs
 
         public override void OnClientConnect(NetworkConnection conn)
         {
+            Debug.Log("Got here- On Client Connectxxxx" + conn.address);
+           // Debug.Log(conn.hostId);
+
             base.OnClientConnect(conn);
 
             OnClientConnected?.Invoke();
@@ -98,11 +101,16 @@ namespace IPS.Inputs
         {
             if (SceneManager.GetActiveScene().name == lobbyScene) //&& playingAgain)
             {
-                Debug.Log("Server add player got here");
+                Debug.Log("Server add player got here" + conn.address);
 
                 bool isHost = roomPlayers.Count == 0;
 
                 GameObject roomPlayerInstance = Instantiate(roomPlayerPrefab);
+
+                // if(isHost){
+                //   String str =  DrivenTransformProperties.get
+                //   Debug.Log("ADDRESS=" + str);
+                // }
 
                 roomPlayerInstance.GetComponent<NetworkRoomPlayerIPS>().isHost = isHost;
 

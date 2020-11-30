@@ -17,6 +17,18 @@ public class HiderPlayer_Health : NetworkBehaviour
     private void CmdPlayerShot(){
         EventPlayerShot?.Invoke();
         //TODO: Remove/Respawn player
+
+        //pick a random one of the NPCS
+
+        //Get their random clothes(will need a clothes reference on LookRandomizer?)
+
+        //Replace this player's clothes with that random NPC's clothes
+
+        //move this player to that NPC's position
+
+        //remove the NPC
+
+        //activate the player
     }
     #endregion
 

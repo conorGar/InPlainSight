@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6392865792543793404}
   - component: {fileID: 8005110971492118361}
   - component: {fileID: 5256590604674947987}
+  - component: {fileID: -3709688206872281630}
   m_Layer: 14
   m_Name: shirts_flowerDress
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6049413186214558278}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0077232, y: -0.014506, z: -0.014455}
+  m_LocalRotation: {x: -0.74392754, y: -0.0000000031432132, z: 5.8207655e-10, w: 0.6682603}
+  m_LocalPosition: {x: -0.0077, y: -0.0277, z: 0.0179}
   m_LocalScale: {x: 7.3887053, y: 6.892245, z: 8.063347}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -96.134, y: 0, z: 0}
 --- !u!33 &8005110971492118361
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-3709688206872281630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049413186214558278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedd67f523324e5448e4a587d91ace40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleeveColor: {fileID: 2100000, guid: e1b9e8c5625be3c468c504d4a7a13e59, type: 2}

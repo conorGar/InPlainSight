@@ -16,10 +16,16 @@ namespace IPS.Inputs
 
         public TextMeshProUGUI readyText;
 
+        public int myScore;
+
+        [SerializeField] GameObject progressBar;
         [SerializeField] TextMeshProUGUI nameDisplay;
         [SerializeField] TextMeshProUGUI scoreNumberDisplay;
 
+        float percentageOfFill; // set by score manager at round end 
         string playerName;
+        bool isRising;
+        Vector2 targetRisePosition;
         public override void OnStartAuthority()
         {
           
@@ -28,13 +34,23 @@ namespace IPS.Inputs
         }
 
         private void Start() {
-              ScoreManagerIPS.Instance.scoreDisplays.Add(this);
+            
             this.transform.parent = ScoreManagerIPS.Instance.roundEndDisplay.transform;
             this.transform.localPosition = new Vector2(this.transform.localPosition.x + (ScoreManagerIPS.Instance.scoreDisplays.Count * 20), this.transform.localPosition.y);
         }
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+
+            if(isRising){
+                Debug.Log("isRising..." + progressBar.transform.localPosition.y);
+                progressBar.GetComponent<RectTransform>().anchoredPosition = Vector2.MoveTowards(progressBar.GetComponent<RectTransform>().anchoredPosition, targetRisePosition, 115*Time.deltaTime);
+                if(Mathf.Abs(targetRisePosition.y - progressBar.transform.position.y) < 2f){
+                    Debug.Log("Bar stopped!");
+                    isRising = false;
+                } 
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && !isRising)
             {
                 Debug.Log("HERE!!!!!!!!");
                 Debug.Log("isLocalPlayer? " + isLocalPlayer);
@@ -87,8 +103,25 @@ namespace IPS.Inputs
 
         [ClientRpc]
         public void RpcSetScoreDisplay(int score)
-        {
+        { 
+            myScore = score;
             scoreNumberDisplay.text = score.ToString();
+        }
+
+          [ClientRpc]
+        public void RpcSetFillPercentage(float percentage)
+        {
+            
+            percentageOfFill = percentage;
+            Debug.Log("Fill percentage: " + percentage);
+
+            targetRisePosition = new Vector2(progressBar.GetComponent<RectTransform>().anchoredPosition.x,  -113 - (263*(1-percentageOfFill)));
+            Debug.Log("TargetRisePosition:" + targetRisePosition);
+        }
+         [ClientRpc]
+        public void RpcStartRising()
+        { 
+            isRising = true;
         }
     }
 }

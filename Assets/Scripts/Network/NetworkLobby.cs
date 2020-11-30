@@ -17,6 +17,7 @@ namespace IPS.Inputs
         [SerializeField] public GameObject landingPageHolder;
         [SerializeField] GameObject nameInputPage;
 
+
         void Awake()
         {
             Instance = this;
@@ -48,7 +49,7 @@ namespace IPS.Inputs
 
         public void JoinLobby()
         {
-            Debug.Log("-x-x-x- JoinLobby called -x-x-x-x");
+            Debug.Log("-x-x-x- JoinLobby called -x-x-x-x" + ipAddressInput.text);
             NetworkManagerIPS.Instance.networkAddress = ipAddressInput.text;
             NetworkManagerIPS.Instance.StartClient();
             joinButton.interactable = false;
@@ -62,6 +63,10 @@ namespace IPS.Inputs
             Debug.Log("SKIP LANDING PAGE WAS CALLED IN NETWORK LOBBY!!");
             nameInputPage.SetActive(false);
             landingPageHolder.SetActive(false);
+        }
+
+        public void BackButton(){
+
         }
 
 

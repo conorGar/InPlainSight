@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UI;
 using TMPro;
 
 
@@ -14,6 +15,11 @@ namespace IPS.Inputs
 
         //have a list that different stages are added to/removed from as they are clicked.
         public List<UI_StageSelectOption> selectedStages = new List<UI_StageSelectOption>();
+
+        [SerializeField] TextMeshProUGUI roundNumDisplay;
+        public Image mapImageDisplay;
+        int roundNum = 3;
+
         //once everything is set, press a PLAY button to start.
 
 
@@ -28,6 +34,7 @@ namespace IPS.Inputs
                 {
                     mapSet.AddMap(stage.mySceneName);
                 }
+                NetworkManagerIPS.Instance.numberOfRounds = roundNum;
                 NetworkManagerIPS.Instance.SetMapSetAndLeaveLobby(mapSet);
             }
         }
@@ -36,6 +43,24 @@ namespace IPS.Inputs
         public void SetTitleText(string title)
         {
             stageTitleDisplay.text = title;
+        }
+
+        public void IncreaseRounds()
+        {
+            if (roundNum < 10)
+            {
+                roundNum++;
+                roundNumDisplay.text = roundNum.ToString();
+            }
+        }
+        public void DecreaseRounds()
+        {
+            if (roundNum > 1)
+            {
+                roundNum--;
+                roundNumDisplay.text = roundNum.ToString();
+            }
+
         }
     }
 }

@@ -13,6 +13,8 @@ public class NPC_Wander : NetworkBehaviour
         WALKING
     }
 
+    [SerializeField] ParticleSystem walkPS;
+    [SerializeField] bool isTitleScreen;
     public NavMeshAgent agent;
     public STATES current_state = STATES.STOPPED;
     public float minStopTime = 0f;
@@ -24,6 +26,7 @@ public class NPC_Wander : NetworkBehaviour
 
     [SerializeField] Animator myAnim;
 
+    [SerializeField] bool onTitleScreen;
 
 
 
@@ -36,7 +39,7 @@ public class NPC_Wander : NetworkBehaviour
 
     private void Start()
     {
-        if (isServer)
+        if (isServer || isTitleScreen)
         {
             Walk();
 
@@ -49,13 +52,14 @@ public class NPC_Wander : NetworkBehaviour
 
     private void Update()
     {
-        if (isServer)
+        if (isServer || isTitleScreen)
         {
             CmdSync(this.gameObject.transform.position, transform.rotation);
             Vector3 moveDirection = targetPos - transform.position;
             moveDirection = new Vector3(-90f, 0f, moveDirection.z);
+             moveDirection.y = moveDirection.y + Physics.gravity.y*Time.deltaTime;
             if (moveDirection != Vector3.zero) //prevent 'snap' into vector3.zero position once stopped moving
-                //transform.rotation = Quaternion.LookRotation(moveDirection);
+                //transform.rotation = Quaternion.LookRotation(targetPos);
             if (current_state == STATES.WALKING)
             {
                 myAnim.SetBool("isWalking", true);
@@ -65,6 +69,7 @@ public class NPC_Wander : NetworkBehaviour
                 {
                     //Arrived.
                     Pause();
+                    walkPS.Stop();
                 }
             }
         }
@@ -76,27 +81,33 @@ public class NPC_Wander : NetworkBehaviour
 
     void Walk()
     {
+
         current_state = STATES.WALKING;
 
         //----find acceptable position on map...
         bool foundDestination = false;
         debugFoundPosition = false;
-        targetPos = this.transform.position + new Vector3(Random.insideUnitSphere.x * range, 0f, Random.insideUnitSphere.z * range);
-        NavMeshHit hit;
+        // targetPos = this.transform.position + new Vector3(Random.insideUnitSphere.x * range, 0f, Random.insideUnitSphere.z * range);
+        // NavMeshHit hit;
 
-        foundDestination = NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas);
-        // while (!foundDestination)
-        // {
-        //     targetPos = this.transform.position + new Vector3(Random.insideUnitSphere.x * range, 0f, Random.insideUnitSphere.z * range);
-        //     foundDestination = NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas);
-        // }
+        // foundDestination = NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas);
+        // // while (!foundDestination)
+        // // {
+        // //     targetPos = this.transform.position + new Vector3(Random.insideUnitSphere.x * range, 0f, Random.insideUnitSphere.z * range);
+        // //     foundDestination = NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas);
+        // // }
 
  
-        debugTargetPos = targetPos;
-        debugFoundPosition = true;
+        // debugTargetPos = targetPos;
+        // debugFoundPosition = true;
 
-
+        if(onTitleScreen)
+            targetPos = TitleScreenManager.Instance.GetRandomNavMeshPoint();
+        else
+            targetPos = MatchManagerIPS.Instance.GetRandomNavMeshPoint();
+        transform.rotation = Quaternion.LookRotation(targetPos);    
         agent.SetDestination(targetPos);
+        walkPS.Play();
 
     }
 

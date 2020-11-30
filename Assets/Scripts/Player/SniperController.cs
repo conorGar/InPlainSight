@@ -11,16 +11,19 @@ namespace IPS.Inputs
         public Vector2 Velocity = new Vector2(0, 0);
         //public Transform rotationPoint;
 
+
         public Camera sniperCamera;
 
-        [Range(0, 5)]
-        public float moveSpeed = 1f;
-        [Range(5, 55)]
+        [Range(15, 30)]
+        public float moveSpeed = 30f;
+      
         public float Radius = 10f;
         private Vector3 _centre;
         private float _angle;
         private float moveDirection;
         private bool isScoped;
+
+        [SerializeField] LineRenderer aimBeam;
 
         private CharacterController controller;
 
@@ -34,6 +37,7 @@ namespace IPS.Inputs
         public override void OnStartAuthority()
         {
             enabled = true;
+            Radius = MatchManagerIPS.Instance.sniperViewDistance;
 
             sniperCamera.gameObject.SetActive(true);
 
@@ -73,16 +77,21 @@ namespace IPS.Inputs
              Debug.Log("isServer? " + isServer);
              Debug.Log("isClient? " + isClient);
              Debug.Log("hasAuthority? " + hasAuthority);
+             var offset = new Vector3(Mathf.Sin(_angle), .6f, Mathf.Cos(_angle)) * Radius;
+             transform.position = _centre + offset;
         }
 
         [ClientCallback]
         private void Update()
         {
 
+                        Debug.DrawRay(sniperZoom.myCam.transform.position, sniperZoom.myCam.transform.forward*50, Color.green, 0, false);    
+
+
             if (Input.GetMouseButtonDown(1) && hasAuthority)
             {
 
-               
+               Debug.Log("GOT HERE- AIM DOWN");
                 isScoped = !isScoped;
                 sniperZoom.ToggleZoom(isScoped);
             }
@@ -90,9 +99,24 @@ namespace IPS.Inputs
             {
                 Shoot();
             }
-            else
+            else if(!isScoped)
             {
                 Move();
+            }
+
+            if(isScoped){
+                //draw red aim line when scoped
+            
+                aimBeam.enabled = true;
+                aimBeam.SetVertexCount (2);
+                //aimBeam.SetPosition(0, sniperZoom.myCam.transform.position); 
+                //  if (Physics.Raycast(sniperZoom.myCam.transform.position, sniperZoom.myCam.transform.forward, out hit))
+                // {
+                    
+                // }
+            
+            }else{
+                aimBeam.enabled = false;
             }
 
 
@@ -106,19 +130,21 @@ namespace IPS.Inputs
 
 
 
-            Vector3 right = controller.transform.right;
+            // Vector3 right = controller.transform.right;
 
-            right.y = 0f;
+            // right.y = 0f;
 
-            float movementDir = right.normalized.x * previousInput.x; //+ forward.normalized * previousInput.y;
+            //  float movementDir = right.normalized.x * previousInput.x; //+ forward.normalized * previousInput.y;
 
+            float horizontal = Input.GetAxisRaw("Horizontal");      
 
+            // _angle += movementDir * Time.deltaTime;
 
-            _angle += movementDir * Time.deltaTime;
+            // var offset = new Vector3(Mathf.Sin(_angle), .6f, Mathf.Cos(_angle)) * Radius;
 
-            var offset = new Vector3(Mathf.Sin(_angle), .6f, Mathf.Cos(_angle)) * Radius;
+            // transform.position = _centre + offset;
 
-            transform.position = _centre + offset;
+            transform.RotateAround(MatchManagerIPS.Instance.sniperRotationPoint.transform.position,new Vector3(0f,horizontal,0f),moveSpeed*Time.deltaTime);
         }
 
 
@@ -128,13 +154,14 @@ namespace IPS.Inputs
             Debug.Log("Shoot() activated");
             RaycastHit hit;
 
-                                GetComponent<Player_ScoreKeeper>().ShootPlayer();
-
+                               // GetComponent<Player_ScoreKeeper>().ShootPlayer();
             if (Physics.Raycast(sniperZoom.myCam.transform.position, sniperZoom.myCam.transform.forward, out hit))
             {
-                if (hit.transform.GetComponent<NPC>())
+                Debug.Log("Got here raycast" + hit.transform.position + hit.transform.gameObject.name);
+                if (hit.transform.gameObject.GetComponent<NPC>())
                 {
-                    hit.transform.GetComponent<NPC>().Shot();
+                    Debug.Log("hit and NPC- got here");
+                    hit.transform.GetComponent<NPC>().Shot(this.gameObject.transform);
                 }
                 else if (hit.transform.GetComponent<HiderPlayer_Movement>())
                 {

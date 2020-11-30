@@ -12,6 +12,10 @@ public class MatchManagerIPS : NetworkBehaviour
     public TextMeshProUGUI pickupPrompt;
 
     public Transform sniperRotationPoint;
+    public float ySpawn;
+
+    [Range(5, 75)]
+    public float sniperViewDistance = 50f;
     //public float spawnDelay;
     public int maxItems = 3;
     //public GameObject objectToSpawn; 
@@ -20,7 +24,6 @@ public class MatchManagerIPS : NetworkBehaviour
    // public List<Item_Apple> currentItems = new List<Item_Apple>(); //each new item spawned/picked up is kept track of
     public List<Transform> itemPossibleSpawns = new List<Transform>();
 
-//    List<Transform> currentlyOccupiedItemSpawns = new List<Transform>();
 
     private void Awake()
     {
@@ -31,12 +34,17 @@ public class MatchManagerIPS : NetworkBehaviour
     {
        // InvokeRepeating("SpawnItem", spawnDelay, spawnDelay);
         //SpawnNPCs();
+        
     }
     // public override void OnStartServer()
     // {
     //     base.OnStartServer();
     //     SpawnNPCs();
     // }
+
+
+ 
+ 
 
 
 

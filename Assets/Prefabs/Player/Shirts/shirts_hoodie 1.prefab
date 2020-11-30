@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2096246907464492184}
   - component: {fileID: 3078358650509699901}
   - component: {fileID: 962769387070250999}
+  - component: {fileID: -3784606283928483724}
   m_Layer: 14
   m_Name: shirts_hoodie 1
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611318726120898082}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.008, y: -0.002, z: -0.03}
+  m_LocalRotation: {x: -0.64521694, y: 9.313226e-10, z: 9.313226e-10, w: 0.76399946}
+  m_LocalPosition: {x: 0.0004, y: -0.0202, z: 0.0096}
   m_LocalScale: {x: 7.3887053, y: 6.892245, z: 8.063347}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -80.364, y: 0, z: 0}
 --- !u!33 &3078358650509699901
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-3784606283928483724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611318726120898082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedd67f523324e5448e4a587d91ace40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleeveColor: {fileID: 2100000, guid: a2550f2e55ff1ea4995cdca9bacb81bd, type: 2}

@@ -25,6 +25,8 @@ namespace IPS.Inputs
 
         List<Transform> currentlyOccupiedItemSpawns = new List<Transform>();
 
+        [SerializeField] bool DebugForceHiderPlayerSpawn;
+
         void Awake()
         {
             Instance = this;
@@ -77,25 +79,35 @@ namespace IPS.Inputs
             Debug.Log("Spawn Player called! -x-x-x-x-x-x-x-x-x-x-x-x-x-x" + NetworkPlayerSpawnManager.Instance);
             //Pick a random, available point on the navmesh and spawn player
             Vector3 spawnPoint = MatchManagerIPS.Instance.GetRandomNavMeshPoint();
-            spawnPoint = new Vector3(spawnPoint.x, .37f, spawnPoint.z); //ensure player is above the ground when spawned
+            if(MatchManagerIPS.Instance.ySpawn != 0)
+                spawnPoint = new Vector3(spawnPoint.x, MatchManagerIPS.Instance.ySpawn, spawnPoint.z); //ensure player is above the ground when spawned
+            Debug.Log("PLAYER SPAWNED AT Y POS:" + spawnPoint.y);
             GameObject playerInstance = null;
 
-
-            if (conn.identity.GetComponent<NetworkGamePlayer>().myPlayerType == NetworkGamePlayer.PLAYER_TYPE.HIDER)
+            if (!DebugForceHiderPlayerSpawn)
             {
-                Debug.Log("Successfully read player as a hider");
-                playerInstance = Instantiate(hiderPlayerPrefab, spawnPoint, Quaternion.identity);
-                playerInstance.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
 
+                if (conn.identity.GetComponent<NetworkGamePlayer>().myPlayerType == NetworkGamePlayer.PLAYER_TYPE.HIDER)
+                {
+                    Debug.Log("Successfully read player as a hider");
+                    playerInstance = Instantiate(hiderPlayerPrefab, spawnPoint, Quaternion.identity);
+                    playerInstance.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+                }
+                else
+                {
+                    Debug.Log("Successfully read player as a sniper");
+                    playerInstance = Instantiate(sniperPlayerPrefab, spawnPoint, Quaternion.identity);
+                }
             }
             else
             {
-                Debug.Log("Successfully read player as a sniper");
-                playerInstance = Instantiate(sniperPlayerPrefab, spawnPoint, Quaternion.identity);
+                playerInstance = Instantiate(hiderPlayerPrefab, spawnPoint, Quaternion.identity);
+                playerInstance.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
 
-            // Quaternion spawnRot = Quaternion.Euler(-90f, 0f, 0f);
-            // playerInstance = Instantiate(hiderPlayerPrefab, spawnPoint, spawnRot);
+
+
 
             NetworkServer.Spawn(playerInstance, conn);
             Debug.Log(playerInstance.transform.rotation + "<- ROTATION AT PLAYER SPAWN");

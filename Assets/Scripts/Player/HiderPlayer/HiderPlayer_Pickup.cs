@@ -51,7 +51,7 @@ namespace IPS.Inputs
             //Increase points
             GetComponent<Player_ScoreKeeper>().PlayerCollectItem();
             GUIManager.Instance.DiamondGetDisplay.SetActive(true);
-
+            Destroy(currentHighlightedItem.gameObject);
             canPickUp = false;
         }
     }

@@ -17,10 +17,13 @@ namespace IPS.Inputs
 
         [SerializeField] UI_StageSelect stageSelectMain;
 
+        [SerializeField] Sprite mapImage;
+
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             stageSelectMain.SetTitleText(stageTitle);
+            stageSelectMain.mapImageDisplay.sprite = mapImage;
 
         }
 

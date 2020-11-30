@@ -96,6 +96,8 @@ MonoBehaviour:
   isReady: 0
   isHost: 0
   readyText: {fileID: 0}
+  myScore: 0
+  progressBar: {fileID: 0}
   nameDisplay: {fileID: 1130245944205597276}
   scoreNumberDisplay: {fileID: 7280392431040386216}
 --- !u!1 &4590462663267825051

@@ -62,8 +62,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  hiderPlayerPrefab: {fileID: 7804047699580967743, guid: d2c74cce3b546d24ca41c13c7ba896f6, type: 3}
+  hiderPlayerPrefab: {fileID: 8518888884948194338, guid: 1981d2358883c854abedf0d8b9b68797, type: 3}
   sniperPlayerPrefab: {fileID: 1263844513069628372, guid: e43d7d483bb08264da84a8c7e532eac0, type: 3}
-  npcPrefab: {fileID: 7050854898505183322, guid: 34bfb44702addb34ba673f6e97ae53fa, type: 3}
+  npcPrefab: {fileID: 7401367375958907585, guid: 6780efbcc3c89164ba408ae238b1c700, type: 3}
   itemPrefab: {fileID: 2797392285182086550, guid: 4694118575c288a41b62a2e856c0fb0f, type: 3}
   currentItems: []
+  DebugForceHiderPlayerSpawn: 0

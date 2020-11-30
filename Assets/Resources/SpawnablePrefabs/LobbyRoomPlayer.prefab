@@ -2981,6 +2981,7 @@ GameObject:
   - component: {fileID: 5409436935233984338}
   - component: {fileID: 5409436935233984337}
   - component: {fileID: 5439380454065416398}
+  - component: {fileID: 1901327175448966397}
   m_Layer: 5
   m_Name: LobbyRoomPlayer
   m_TagString: Untagged
@@ -3079,6 +3080,27 @@ MonoBehaviour:
   - {fileID: 5409436934195667462}
   startGameButton: {fileID: 5409436933964707766}
   stageSelectScreen: {fileID: 2401221916467160587}
+--- !u!223 &1901327175448966397
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5409436935233984335}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &5409436935237738735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3959,6 +3981,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5929502304022208827, guid: db0392106bb229242bd0ec79c797671f, type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6116876485075261206, guid: db0392106bb229242bd0ec79c797671f, type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}

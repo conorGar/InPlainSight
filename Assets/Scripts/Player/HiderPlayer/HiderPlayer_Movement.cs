@@ -11,7 +11,7 @@ namespace IPS.Inputs
         public CharacterController controller;
 
         [SerializeField] Transform cam;
-        public float gravityScale;
+        //public float gravityScale;
 
         [SerializeField] Animator myAnim;
         Vector2 previousInput;
@@ -61,7 +61,7 @@ namespace IPS.Inputs
             //  Debug.Log("hasAuthority? " + hasAuthority);
         }
 
-        [ClientCallback]
+        //[ClientCallback]
         void Update()
         {
             Move();
@@ -69,37 +69,25 @@ namespace IPS.Inputs
         }
 
 
-        [Client]
+        //[Client]
         private void Move(){
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             Vector3 direction = new Vector3(horizontal,0f,vertical).normalized;
-
+            Vector3 moveDir = Vector3.zero;
             if(direction.magnitude > 0.1f){
                 float targetAngle = Mathf.Atan2(direction.x,direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-                transform.rotation = Quaternion.Euler(-90f,targetAngle,0f);
+                transform.rotation = Quaternion.Euler(0f,targetAngle,0f);
 
-                Vector3 moveDir = Quaternion.Euler(0f, targetAngle,0f) * Vector3.forward;
-                controller.Move(moveDir.normalized*moveSpeed*Time.deltaTime);
+                moveDir = Quaternion.Euler(0f, targetAngle,0f) * Vector3.forward;
+                Debug.Log(targetAngle);
+                Debug.Log("MoveDir:" + moveDir.normalized);
             }
+                            moveDir.y = moveDir.y + Physics.gravity.y*Time.deltaTime;
+                controller.Move(moveDir.normalized*moveSpeed*Time.deltaTime);
+
         }
 
-        //[Client]
-        // private void Move2()
-        // {
-
-
-        //     Vector3 right = controller.transform.right;
-        //     Vector3 forward = controller.transform.forward;
-
-        //     right.y = 0f;
-        //     forward.y = 0f;
-
-        //     Vector3 movementDir = right.normalized * previousInput.x + forward.normalized * previousInput.y;
-
-        //     controller.Move(movementDir * moveSpeed * Time.deltaTime);
-
-        // }
     }
 
 }
